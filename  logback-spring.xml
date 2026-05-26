@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <springProfile name="dev">
+
+        <appender name="CONSOLE"
+                  class="ch.qos.logback.core.ConsoleAppender">
+
+            <encoder>
+                <pattern>
+                    %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+                </pattern>
+            </encoder>
+
+        </appender>
+
+        <root level="DEBUG">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+
+    </springProfile>
+
+    <springProfile name="prod">
+
+        <appender name="FILE"
+                  class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+            <!-- File log hiện tại -->
+            <file>logs/app.log</file>
+
+            <!-- Chính sách rotate -->
+            <rollingPolicy
+                    class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+                <!-- File sau khi rotate -->
+                <fileNamePattern>
+                    logs/app.%d{yyyy-MM-dd}.%i.log.gz
+                </fileNamePattern>
+
+                <!-- Giữ tối đa 30 ngày -->
+                <maxHistory>30</maxHistory>
+
+                <!-- Rotate theo dung lượng -->
+                <timeBasedFileNamingAndTriggeringPolicy
+                        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+
+                    <!-- Cắt khi vượt 10MB -->
+                    <maxFileSize>10MB</maxFileSize>
+
+                </timeBasedFileNamingAndTriggeringPolicy>
+
+            </rollingPolicy>
+
+            <encoder>
+                <pattern>
+                    %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+                </pattern>
+            </encoder>
+
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="FILE"/>
+        </root>
+
+    </springProfile>
+
+</configuration>
